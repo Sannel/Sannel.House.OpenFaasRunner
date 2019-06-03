@@ -22,7 +22,7 @@ namespace root
 			{
 				IConfigurationBuilder builder = new ConfigurationBuilder();
 				builder.SetBasePath(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-				builder.AddYamlFile("app_config/appsettings.yml");
+				builder.AddYamlFile("app_config/appsettings.yml", true);
 
 				configuration = builder.Build();
 			});
