@@ -13,6 +13,9 @@ variables:
   mainConfigPath: src/$(projectFolder)/app_config
   hasClient: false
   hasTests: true
+  disableLinux: false
+  disableWindows: true
+  disableOSX: false
 
 name: $(date:yyyy.MM.dd)$(rev:.rr)
 
@@ -20,6 +23,7 @@ jobs:
 - job: 'osx'
   pool:
     vmImage: macOS-10.13
+  condition: ne(variables['disableOSX'], 'true')
   steps:
   - task: DotNetCoreInstaller@0
     displayName: 'Use .NET Core sdk 2.2'
@@ -161,6 +165,7 @@ jobs:
 - job: linux_arm
   pool:
     vmImage: ubuntu-16.04
+  condition: ne(variables['disableLinux'], 'true')
   steps:
     - powershell: |
         # Write your commands here
@@ -267,6 +272,7 @@ jobs:
 - job: linux_x64
   pool:
     vmImage: ubuntu-16.04
+  condition: ne(variables['disableLinux'], 'true')
   steps:
     - task: DotNetCoreInstaller@0
       displayName: 'Use .NET Core sdk $(sdk_version)'
@@ -390,6 +396,7 @@ jobs:
 - job: windows_x64
   pool:
     vmImage: windows-2019
+  condition: ne(variables['disableWindows'], 'true')
   steps:
     - task: DotNetCoreInstaller@0
       displayName: 'Use .NET Core sdk $(sdk_version)'
@@ -560,6 +567,7 @@ jobs:
 - job: windows_arm
   pool:
     vmImage: windows-2019
+  condition: ne(variables['disableWindows'], 'true')
   steps:
     - task: DotNetCoreInstaller@0
       displayName: 'Use .NET Core sdk $(sdk_version)'
