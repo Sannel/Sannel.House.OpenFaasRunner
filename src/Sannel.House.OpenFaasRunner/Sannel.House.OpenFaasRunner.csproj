@@ -15,8 +15,4 @@
     <ProjectReference Include="..\Template\Function\Function.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="app_config\" />
-  </ItemGroup>
-
 </Project>
