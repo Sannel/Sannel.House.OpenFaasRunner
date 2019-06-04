@@ -8,19 +8,26 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.*/
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Function
 {
-	public class FunctionHandler
+	public static class FunctionHandler
 	{
-		public async Task<string> HandleAsync(string message, IConfiguration configuration)
+		public static async Task<IActionResult> Run(HttpRequest request, IConfiguration configuration, ILogger log)
 		{
-			return await Task.Run(() => $"Handler revived message {message}");
+			using (var s = new StreamReader(request.Body))
+			{
+				return new OkObjectResult($"Function received content {await s.ReadToEndAsync()}");
+			}
 		}
 	}
 }

@@ -1,0 +1,11 @@
+{
+  "author": "Adam Holt <holtsoftware@outlook.com>",
+  "classifications": [ "OpenFaasFunction"], 
+  "name": "Open Faas Function using Custom Runner",
+  "identity": "OpenFaasFunction",
+  "shortName": "ofunction",
+  "tags": {
+    "language": "C#"
+  },
+  "sourceName": "sannel"
+}

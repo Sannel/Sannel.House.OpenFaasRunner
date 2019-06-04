@@ -14,7 +14,7 @@ variables:
   hasClient: false
   hasTests: true
   disableLinux: false
-  disableWindows: true
+  disableWindows: false
   disableOSX: false
 
 name: $(date:yyyy.MM.dd)$(rev:.rr)
