@@ -468,6 +468,7 @@ jobs:
           **/*.crt
         TargetFolder: '$(Build.StagingDirectory)/$(projectFolder)/app_config/'
     - powershell: |
+        Invoke-WebRequest -Uri "https://github.com/openfaas-incubator/of-watchdog/releases/download/0.5.1/of-watchdog.exe" -OutFile $(Build.StagingDirectory)/fwatchdog.exe
         New-Item -Type Directory -Force $(Build.StagingDirectory)/$(projectFolder)/app_data/
         New-Item -Type File -Force $(Build.StagingDirectory)/$(projectFolder)/app_data/.hold
         
@@ -614,6 +615,7 @@ jobs:
           **/*.crt
         TargetFolder: '$(Build.StagingDirectory)/$(projectFolder)/app_config/'
     - powershell: |
+        Invoke-WebRequest -Uri "https://github.com/openfaas-incubator/of-watchdog/releases/download/0.5.1/of-watchdog.exe" -OutFile $(Build.StagingDirectory)/fwatchdog.exe
         New-Item -Type Directory -Force $(Build.StagingDirectory)/$(projectFolder)/app_data/
         New-Item -Type File -Force $(Build.StagingDirectory)/$(projectFolder)/app_data/.hold
         
