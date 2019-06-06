@@ -3,7 +3,7 @@ trigger:
 - develop
 
 variables:
-  sdk_version: 3.0.100
+  sdk_version: 3.0.100-preview-5
   dockerRepositoryRoot: sannel
   dockerRepositoryName: house.openfaasrunner
   dockerTagBase: $(Build.SourceBranchName)-$(Build.BuildId)
