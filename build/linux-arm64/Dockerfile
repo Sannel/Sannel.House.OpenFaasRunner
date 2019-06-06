@@ -3,7 +3,7 @@ ARG tag=2.2
 FROM mcr.microsoft.com/dotnet/core/runtime:${tag} AS base
 ENV DOTNET_CLI_TELEMETRY_OPTOUT 1
 WORKDIR /app
-COPY qemu-arm-static /usr/bin/
+COPY qemu-aarch64-static /usr/bin/
 COPY Sannel.House.OpenFaasRunner/ .
 RUN curl -sSL https://github.com/openfaas-incubator/of-watchdog/releases/download/0.5.1/of-watchdog-arm64 > /usr/bin/fwatchdog \
     && chmod +x /usr/bin/fwatchdog \
@@ -11,7 +11,7 @@ RUN curl -sSL https://github.com/openfaas-incubator/of-watchdog/releases/downloa
     && groupadd -g 1200 house \
     && useradd -m house -g house -u 1100 \
     && chown -R house:house /app \
-    && rm -f /usr/bin/qemu-arm-static
+    && rm -f /usr/bin/qemu-aarch64-static
 USER house
 ENV fprocess="dotnet ./Sannel.House.OpenFaasRunner.dll"
 ENV cgi_headers="true"
