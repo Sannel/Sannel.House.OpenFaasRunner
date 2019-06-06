@@ -30,6 +30,11 @@ jobs:
   - task: DotNetCoreInstaller@0
     displayName: 'Use .NET Core sdk 2.2'
     inputs:
+      version: 2.2.300
+      includePreviewVersions: true
+  - task: DotNetCoreInstaller@0
+    displayName: 'Use .NET Core sdk $(sdk_version)'
+    inputs:
       version: $(sdk_version)
       includePreviewVersions: true
   - task: DotNetCoreCLI@2
@@ -113,6 +118,11 @@ jobs:
   condition: eq(variables['hasClient'], 'true')
   steps:
     - task: DotNetCoreInstaller@0
+      displayName: 'Use .NET Core sdk 2.2'
+      inputs:
+        version: 2.2.300
+        includePreviewVersions: true
+    - task: DotNetCoreInstaller@0
       displayName: 'Use .NET Core sdk $(sdk_version)'
       inputs:
         version: $(sdk_version)
@@ -180,6 +190,11 @@ jobs:
       displayName: 'Install qemu'
     - task: DotNetCoreInstaller@0
       displayName: 'Use .NET Core sdk 2.2'
+      inputs:
+        version: 2.2.300
+        includePreviewVersions: true
+    - task: DotNetCoreInstaller@0
+      displayName: 'Use .NET Core sdk $(sdk_version)'
       inputs:
         version: $(sdk_version)
         includePreviewVersions: true
@@ -289,6 +304,11 @@ jobs:
     - task: DotNetCoreInstaller@0
       displayName: 'Use .NET Core sdk 2.2'
       inputs:
+        version: 2.2.300
+        includePreviewVersions: true
+    - task: DotNetCoreInstaller@0
+      displayName: 'Use .NET Core sdk $(sdk_version)'
+      inputs:
         version: $(sdk_version)
         includePreviewVersions: true
     - task: DotNetCoreCLI@2
@@ -388,6 +408,11 @@ jobs:
     vmImage: ubuntu-16.04
   condition: ne(variables['disableLinux'], 'true')
   steps:
+    - task: DotNetCoreInstaller@0
+      displayName: 'Use .NET Core sdk 2.2'
+      inputs:
+        version: 2.2.300
+        includePreviewVersions: true
     - task: DotNetCoreInstaller@0
       displayName: 'Use .NET Core sdk $(sdk_version)'
       inputs:
@@ -513,6 +538,11 @@ jobs:
     vmImage: windows-2019
   condition: ne(variables['disableWindows'], 'true')
   steps:
+    - task: DotNetCoreInstaller@0
+      displayName: 'Use .NET Core sdk 2.2'
+      inputs:
+        version: 2.2.300
+        includePreviewVersions: true
     - task: DotNetCoreInstaller@0
       displayName: 'Use .NET Core sdk $(sdk_version)'
       inputs:
@@ -686,6 +716,11 @@ jobs:
     vmImage: windows-2019
   condition: ne(variables['disableWindows'], 'true')
   steps:
+    - task: DotNetCoreInstaller@0
+      displayName: 'Use .NET Core sdk 2.2'
+      inputs:
+        version: 2.2.300
+        includePreviewVersions: true
     - task: DotNetCoreInstaller@0
       displayName: 'Use .NET Core sdk $(sdk_version)'
       inputs:
