@@ -31,6 +31,7 @@ jobs:
     displayName: 'Use .NET Core sdk 2.2'
     inputs:
       version: $(sdk_version)
+      includePreviewVersions: true
   - task: DotNetCoreCLI@2
     displayName: 'dotnet restore'
     inputs:
@@ -115,6 +116,7 @@ jobs:
       displayName: 'Use .NET Core sdk $(sdk_version)'
       inputs:
         version: $(sdk_version)
+        includePreviewVersions: true
     - task: DotNetCoreCLI@2
       displayName: 'dotnet restore'
       inputs:
@@ -180,6 +182,7 @@ jobs:
       displayName: 'Use .NET Core sdk 2.2'
       inputs:
         version: $(sdk_version)
+        includePreviewVersions: true
     - task: DotNetCoreCLI@2
       displayName: 'dotnet restore'
       inputs:
@@ -287,6 +290,7 @@ jobs:
       displayName: 'Use .NET Core sdk 2.2'
       inputs:
         version: $(sdk_version)
+        includePreviewVersions: true
     - task: DotNetCoreCLI@2
       displayName: 'dotnet restore'
       inputs:
@@ -388,6 +392,7 @@ jobs:
       displayName: 'Use .NET Core sdk $(sdk_version)'
       inputs:
         version: $(sdk_version)
+        includePreviewVersions: true
     - task: DotNetCoreCLI@2
       displayName: 'dotnet restore'
       inputs:
@@ -512,6 +517,7 @@ jobs:
       displayName: 'Use .NET Core sdk $(sdk_version)'
       inputs:
         version: $(sdk_version)
+        includePreviewVersions: true
     - task: DotNetCoreCLI@2
       displayName: 'dotnet restore'
       inputs:
@@ -684,6 +690,7 @@ jobs:
       displayName: 'Use .NET Core sdk $(sdk_version)'
       inputs:
         version: $(sdk_version)
+        includePreviewVersions: true
     - task: DotNetCoreCLI@2
       displayName: 'dotnet restore'
       inputs:
