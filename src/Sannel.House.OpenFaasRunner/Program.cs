@@ -23,6 +23,17 @@ namespace Sannel.House.OpenFaasRunner
 {
 	public class Program
 	{
+		private static void addYamlFilesInDirectory(IConfigurationBuilder c, string path)
+		{
+			if(Directory.Exists(path))
+			{
+				foreach(var file in Directory.GetFiles(path, "*.yml"))
+				{
+					c.AddYamlFile(file, true, true);
+				}
+			}
+		}
+
 		public static void Main(string[] args)
 		{
 			CreateWebHostBuilder(args).Build().Run();
@@ -34,6 +45,8 @@ namespace Sannel.House.OpenFaasRunner
 				{
 					c.AddJsonFile(Path.Combine("app_config", "appsettings.json"), true, true);
 					c.AddYamlFile(Path.Combine("app_config", "appsettings.yml"), true, true);
+
+					addYamlFilesInDirectory(c, "/var/openfaas/secrets");
 				})
 				.UseStartup<Startup>();
 	}
