@@ -3,7 +3,7 @@ trigger:
 - develop
 
 variables:
-  sdk_version: 3.0.100-preview6-012264
+  sdk_version: 2.2.300
   dockerRepositoryRoot: sannel
   dockerRepositoryName: house.openfaasrunner
   dockerTagBase: $(Build.SourceBranchName)-$(Build.BuildId)
@@ -11,7 +11,7 @@ variables:
   projectFolder: Sannel.House.OpenFaasRunner
   mainProjectPath: src/$(projectFolder)/$(projectFolder).csproj
   mainConfigPath: src/$(projectFolder)/app_config
-  tag: 3.0
+  tag: 2.2
   codeName: buster
   hasClient: false
   hasTests: true
@@ -277,7 +277,7 @@ jobs:
 - job: linux_arm64
   pool:
     vmImage: ubuntu-16.04
-  condition: ne(variables['disableLinux'], 'true')
+  condition: ne(variables['disableLinux'], 'false')
   steps:
     - powershell: |
         # Write your commands here
