@@ -48,7 +48,7 @@ jobs:
       inputs:
         containerregistrytype: 'Container Registry'
         dockerRegistryConnection: 'Docker Hub'
-        dockerFile: 'build/linux_arm/Dockerfile.src'
+        dockerFile: 'build/linux-arm/Dockerfile.src'
         buildArguments: 'tag=$(tag)-$(codeName)-arm32v7'
         defaultContext: false
         imageName: '$(imageName)-linux-src-arm32v7'
@@ -57,7 +57,7 @@ jobs:
       inputs:
         containerregistrytype: 'Container Registry'
         dockerRegistryConnection: 'Docker Hub'
-        dockerFile: 'build/linux_arm/Dockerfile'
+        dockerFile: 'build/linux-arm/Dockerfile'
         buildArguments: 'tag=$(tag)-$(codeName)-arm32v7'
         defaultContext: false
         context: '$(Build.StagingDirectory)'
