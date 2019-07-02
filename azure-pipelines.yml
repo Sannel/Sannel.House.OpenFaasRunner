@@ -60,7 +60,6 @@ jobs:
         dockerFile: 'build/linux-arm/Dockerfile'
         buildArguments: 'tag=$(tag)-$(codeName)-arm32v7'
         defaultContext: false
-        context: '$(Build.StagingDirectory)'
         imageName: '$(imageName)-linux-arm32v7'
     - powershell: |
         $img = "$(imageName)".ToLower()
