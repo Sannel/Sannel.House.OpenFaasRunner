@@ -4,7 +4,6 @@ FROM mcr.microsoft.com/dotnet/core/runtime:${tag} AS base
 ENV DOTNET_CLI_TELEMETRY_OPTOUT 1
 WORKDIR /app
 COPY qemu-arm-static /usr/bin/
-COPY Sannel.House.OpenFaasRunner/ .
 RUN curl -sSL https://github.com/openfaas-incubator/of-watchdog/releases/download/0.5.1/of-watchdog-armhf > /usr/bin/fwatchdog \
     && chmod +x /usr/bin/fwatchdog \
     && ln -s  /var/run/secrets/kubernetes.io/serviceaccount/ca.crt /etc/ssl/certs/kubernetes.pem \
