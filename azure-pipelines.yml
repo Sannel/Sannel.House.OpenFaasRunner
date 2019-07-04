@@ -155,7 +155,7 @@ jobs:
         docker save -o $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).linux.x64.src.tar "${img}-linux-src-x64"
         tar cvf $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).linux.x64.tar $(Build.StagingDirectory)/*.tar
         bzip2 -9 $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).linux.x64.tar
-        rm *.tar
+        rm $(Build.StagingDirectory)/*.tar
       displayName: 'export image'
     - task: PublishPipelineArtifact@0
       displayName: 'Publish Pipeline Artifact'
