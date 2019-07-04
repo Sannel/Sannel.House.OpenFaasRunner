@@ -139,7 +139,7 @@ jobs:
         dockerFile: 'build/linux-x64/Dockerfile.src'
         buildArguments: 'tag=$(tag)-$(codeName)'
         defaultContext: false
-        imageName: '$(imageName)-linux-x64-src'
+        imageName: '$(imageName)-linux-src-x64'
     - task: Docker@0
       displayName: 'Build an image'
       inputs:
@@ -151,10 +151,10 @@ jobs:
         imageName: '$(imageName)-linux-x64'
     - powershell: |
         $img = "$(imageName)".ToLower()
-        docker save -o $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).linux.x64.tar "${img}-linux-x64"
+        docker save -o $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).linux.x64.run.tar "${img}-linux-x64"
         docker save -o $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).linux.x64.src.tar "${img}-linux-src-x64"
-        tar cvf $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).linux.tar $(Build.StagingDirectory)/*.tar
-        bzip2 -9 $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).linux.tar
+        tar cvf $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).linux.x64.tar $(Build.StagingDirectory)/*.tar
+        bzip2 -9 $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).linux.x64.tar
         rm *.tar
       displayName: 'export image'
     - task: PublishPipelineArtifact@0
