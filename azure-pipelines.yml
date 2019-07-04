@@ -145,7 +145,7 @@ jobs:
       inputs:
         containerregistrytype: 'Container Registry'
         dockerRegistryConnection: 'Docker Hub'
-        dockerFile: 'build/linux-arm/Dockerfile'
+        dockerFile: 'build/linux-x64/Dockerfile'
         buildArguments: 'tag=$(tag)-$(codeName)'
         defaultContext: false
         imageName: '$(imageName)-linux-x64'
