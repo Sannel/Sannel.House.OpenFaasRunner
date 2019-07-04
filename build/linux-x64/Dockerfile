@@ -1,9 +1,9 @@
 ARG tag=2.2
+
 FROM mcr.microsoft.com/dotnet/core/runtime:${tag} AS base
 ENV DOTNET_CLI_TELEMETRY_OPTOUT 1
 WORKDIR /app
-COPY Sannel.House.OpenFaasRunner/ .
-RUN curl -sSL https://github.com/openfaas-incubator/of-watchdog/releases/download/0.5.1/of-watchdog > /usr/bin/fwatchdog \
+RUN curl -sSL https://github.com/openfaas-incubator/of-watchdog/releases/download/0.5.1/of-watchdog-armhf > /usr/bin/fwatchdog \
     && chmod +x /usr/bin/fwatchdog \
     && ln -s  /var/run/secrets/kubernetes.io/serviceaccount/ca.crt /etc/ssl/certs/kubernetes.pem \
     && groupadd -g 1200 house \
