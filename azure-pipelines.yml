@@ -165,7 +165,7 @@ jobs:
 
 - job: windows_x64
   pool:
-    vmImage: win1803
+    vmImage: windows-2019
   condition: ne(variables['disableWindows'], 'true')
   steps:
     - task: Docker@0
