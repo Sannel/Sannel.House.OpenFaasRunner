@@ -164,8 +164,7 @@ jobs:
         targetPath: '$(Build.StagingDirectory)'
 
 - job: windows_x64
-  pool:
-    vmImage: "1903"
+  pool: "1903"
   condition: ne(variables['disableWindows'], 'true')
   steps:
     - task: Docker@0
