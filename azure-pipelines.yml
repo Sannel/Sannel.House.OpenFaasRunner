@@ -67,7 +67,7 @@ jobs:
         docker save -o $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).linux.arm32v7.src.tar "${img}-linux-src-arm32v7"
         tar cvf $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).linux.arm.tar $(Build.StagingDirectory)/*.tar
         bzip2 -9 $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).linux.arm.tar
-        rm *.tar
+        rm $(Build.StagingDirectory)/*.tar
       displayName: 'export image'
     - task: PublishPipelineArtifact@0
       displayName: 'Publish Pipeline Artifact'
@@ -119,7 +119,7 @@ jobs:
         docker save -o $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).linux.arm64v8.src.tar "${img}-linux-src-arm64v8"
         tar cvf $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).linux.arm64.tar $(Build.StagingDirectory)/*.tar
         bzip2 -9 $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).linux.arm64.tar
-        rm *.tar
+        rm $(Build.StagingDirectory)/*.tar
       displayName: 'export image'
     - task: PublishPipelineArtifact@0
       displayName: 'Publish Pipeline Artifact'
@@ -161,4 +161,56 @@ jobs:
       displayName: 'Publish Pipeline Artifact'
       inputs:
         artifactName: 'linux-x64'
+        targetPath: '$(Build.StagingDirectory)'
+
+- job: windows_x64
+  pool:
+    vmImage: win1803
+  condition: ne(variables['disableWindows'], 'true')
+  steps:
+    - task: Docker@0
+      displayName: 'Build an image x64 1809'
+      inputs:
+        containerregistrytype: 'Container Registry'
+        dockerRegistryConnection: 'Docker Hub'
+        action: 'Run a Docker command'
+        customCommand: 'build --build-arg tag=2.2-nanoserver-1809 -t $(imageName)-win-src-x64-1809 -f build/windows/Dockerfile.src --isolation hyperv .'
+    - task: Docker@0
+      displayName: 'Build an image x64 1803'
+      inputs:
+        containerregistrytype: 'Container Registry'
+        dockerRegistryConnection: 'Docker Hub'
+        action: 'Run a Docker command'
+        customCommand: 'build --build-arg tag=2.2-nanoserver-1803 -t $(imageName)-win-src-x64-1803 -f build/windows/Dockerfile.src --isolation hyperv .'
+    - powershell: |
+        Invoke-WebRequest -Uri "https://github.com/openfaas-incubator/of-watchdog/releases/download/0.5.3/of-watchdog.exe" -OutFile fwatchdog.exe
+      displayName: 'download watchdog'
+    - task: Docker@0
+      displayName: 'Build an image x64 1809'
+      inputs:
+        containerregistrytype: 'Container Registry'
+        dockerRegistryConnection: 'Docker Hub'
+        action: 'Run a Docker command'
+        customCommand: 'build --build-arg tag=2.2-nanoserver-1809 -t $(imageName)-win-x64-1809 -f build/windows/Dockerfile --isolation hyperv .'
+    - task: Docker@0
+      displayName: 'Build an image x64 1803'
+      inputs:
+        containerregistrytype: 'Container Registry'
+        dockerRegistryConnection: 'Docker Hub'
+        action: 'Run a Docker command'
+        customCommand: 'build --build-arg tag=2.2-nanoserver-1803 -t $(imageName)-win-x64-1803 -f build/windows/Dockerfile --isolation hyperv .'
+    - powershell: |
+        $img = "$(imageName)".ToLower()
+        docker save -o $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).win.x64.1809.run.tar "${img}-win-x64-1809"
+        docker save -o $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).win.x64.1809.src.tar "${img}-win-src-x64-1809"
+        docker save -o $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).win.x64.1803.run.tar "${img}-win-x64-1803"
+        docker save -o $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).win.x64.1803.src.tar "${img}-win-src-x64-1803"
+        tar cvf $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).win.x64.tar $(Build.StagingDirectory)/*.tar
+        bzip2 -9 $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).win.x64.tar
+        rm $(Build.StagingDirectory)/*.tar
+      displayName: 'export image'
+    - task: PublishPipelineArtifact@0
+      displayName: 'Publish Pipeline Artifact'
+      inputs:
+        artifactName: 'windows-x64'
         targetPath: '$(Build.StagingDirectory)'

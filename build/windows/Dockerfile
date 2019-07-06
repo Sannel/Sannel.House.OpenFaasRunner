@@ -2,7 +2,6 @@ ARG tag=2.2
 FROM mcr.microsoft.com/dotnet/core/runtime:${tag} AS base
 ENV DOTNET_CLI_TELEMETRY_OPTOUT 1
 WORKDIR /app
-COPY Sannel.House.OpenFaasRunner/ .
 COPY fwatchdog.exe c:/fwatchdog.exe
 USER ContainerUser
 
