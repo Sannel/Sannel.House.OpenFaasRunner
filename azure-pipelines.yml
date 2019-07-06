@@ -168,6 +168,13 @@ jobs:
   condition: ne(variables['disableWindows'], 'true')
   steps:
     - task: Docker@0
+      displayName: 'Build an image x64 1903'
+      inputs:
+        containerregistrytype: 'Container Registry'
+        dockerRegistryConnection: 'Docker Hub'
+        action: 'Run a Docker command'
+        customCommand: 'build --build-arg tag=2.2-nanoserver-1903 -t $(imageName)-win-src-x64-1903 -f build/windows/Dockerfile.src --isolation hyperv .'
+    - task: Docker@0
       displayName: 'Build an image x64 1809'
       inputs:
         containerregistrytype: 'Container Registry'
@@ -185,6 +192,13 @@ jobs:
         Invoke-WebRequest -Uri "https://github.com/openfaas-incubator/of-watchdog/releases/download/0.5.3/of-watchdog.exe" -OutFile fwatchdog.exe
       displayName: 'download watchdog'
     - task: Docker@0
+      displayName: 'Build an image x64 1903'
+      inputs:
+        containerregistrytype: 'Container Registry'
+        dockerRegistryConnection: 'Docker Hub'
+        action: 'Run a Docker command'
+        customCommand: 'build --build-arg tag=2.2-nanoserver-1903 -t $(imageName)-win-x64-1903 -f build/windows/Dockerfile --isolation hyperv .'
+    - task: Docker@0
       displayName: 'Build an image x64 1809'
       inputs:
         containerregistrytype: 'Container Registry'
@@ -200,6 +214,8 @@ jobs:
         customCommand: 'build --build-arg tag=2.2-nanoserver-1803 -t $(imageName)-win-x64-1803 -f build/windows/Dockerfile --isolation hyperv .'
     - powershell: |
         $img = "$(imageName)".ToLower()
+        docker save -o $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).win.x64.1903.run.tar "${img}-win-x64-1903"
+        docker save -o $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).win.x64.1903.src.tar "${img}-win-src-x64-1903"
         docker save -o $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).win.x64.1809.run.tar "${img}-win-x64-1809"
         docker save -o $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).win.x64.1809.src.tar "${img}-win-src-x64-1809"
         docker save -o $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).win.x64.1803.run.tar "${img}-win-x64-1803"
