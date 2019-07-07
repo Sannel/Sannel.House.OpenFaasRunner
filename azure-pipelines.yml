@@ -163,18 +163,11 @@ jobs:
         artifactName: 'linux-x64'
         targetPath: '$(Build.StagingDirectory)'
 
-- job: windows_x64
+- job: windows_x64_1803
   pool:
     vmImage: "windows-2019"
   condition: ne(variables['disableWindows'], 'true')
   steps:
-    - task: Docker@0
-      displayName: 'Build an image x64 1809'
-      inputs:
-        containerregistrytype: 'Container Registry'
-        dockerRegistryConnection: 'Docker Hub'
-        action: 'Run a Docker command'
-        customCommand: 'build --build-arg tag=2.2-nanoserver-1809 -t $(imageName)-win-src-x64-1809 -f build/windows/Dockerfile.src --isolation hyperv .'
     - task: Docker@0
       displayName: 'Build an image x64 1803'
       inputs:
@@ -186,13 +179,6 @@ jobs:
         Invoke-WebRequest -Uri "https://github.com/openfaas-incubator/of-watchdog/releases/download/0.5.3/of-watchdog.exe" -OutFile fwatchdog.exe
       displayName: 'download watchdog'
     - task: Docker@0
-      displayName: 'Build an image x64 1809'
-      inputs:
-        containerregistrytype: 'Container Registry'
-        dockerRegistryConnection: 'Docker Hub'
-        action: 'Run a Docker command'
-        customCommand: 'build --build-arg tag=2.2-nanoserver-1809 -t $(imageName)-win-x64-1809 -f build/windows/Dockerfile --isolation hyperv .'
-    - task: Docker@0
       displayName: 'Build an image x64 1803'
       inputs:
         containerregistrytype: 'Container Registry'
@@ -201,10 +187,6 @@ jobs:
         customCommand: 'build --build-arg tag=2.2-nanoserver-1803 -t $(imageName)-win-x64-1803 -f build/windows/Dockerfile --isolation hyperv .'
     - powershell: |
         $img = "$(imageName)".ToLower()
-        Write-Host "Export 1809"
-        docker save -o $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).win.x64.1809.run.tar "${img}-win-x64-1809"
-        Write-Host "Export src 1809"
-        docker save -o $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).win.x64.1809.src.tar "${img}-win-src-x64-1809"
         Write-Host "Export 1803"
         docker save -o $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).win.x64.1803.run.tar "${img}-win-x64-1803"
         Write-Host "Export src 1803"
@@ -215,7 +197,7 @@ jobs:
         rootFolderOrFile: '$(Build.StagingDirectory)'
         includeRootFolder: true
         archiveType: 'zip'
-        archiveFile: '$(Build.StagingDirectory)/win.x64.zip'
+        archiveFile: '$(Build.StagingDirectory)/win.x64.1803.zip'
         replaceExistingArchive: true
         verbose: true
     - powershell: |
@@ -225,9 +207,57 @@ jobs:
     - task: PublishPipelineArtifact@0
       displayName: 'Publish Pipeline Artifact'
       inputs:
-        artifactName: 'windows-x64'
+        artifactName: 'windows-x64-1803'
         targetPath: '$(Build.StagingDirectory)'
-- job: windows_1903_x64
+
+- job: windows_x64_1809
+  pool:
+    vmImage: "windows-2019"
+  condition: ne(variables['disableWindows'], 'true')
+  steps:
+    - task: Docker@0
+      displayName: 'Build an image x64 1809'
+      inputs:
+        containerregistrytype: 'Container Registry'
+        dockerRegistryConnection: 'Docker Hub'
+        action: 'Run a Docker command'
+        customCommand: 'build --build-arg tag=2.2-nanoserver-1809 -t $(imageName)-win-src-x64-1809 -f build/windows/Dockerfile.src --isolation hyperv .'
+    - powershell: |
+        Invoke-WebRequest -Uri "https://github.com/openfaas-incubator/of-watchdog/releases/download/0.5.3/of-watchdog.exe" -OutFile fwatchdog.exe
+      displayName: 'download watchdog'
+    - task: Docker@0
+      displayName: 'Build an image x64 1809'
+      inputs:
+        containerregistrytype: 'Container Registry'
+        dockerRegistryConnection: 'Docker Hub'
+        action: 'Run a Docker command'
+        customCommand: 'build --build-arg tag=2.2-nanoserver-1809 -t $(imageName)-win-x64-1809 -f build/windows/Dockerfile --isolation hyperv .'
+    - powershell: |
+        $img = "$(imageName)".ToLower()
+        Write-Host "Export 1809"
+        docker save -o $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).win.x64.1809.run.tar "${img}-win-x64-1809"
+        Write-Host "Export src 1809"
+        docker save -o $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).win.x64.1809.src.tar "${img}-win-src-x64-1809"
+      displayName: 'export image'
+    - task: ArchiveFiles@2
+      inputs:
+        rootFolderOrFile: '$(Build.StagingDirectory)'
+        includeRootFolder: true
+        archiveType: 'zip'
+        archiveFile: '$(Build.StagingDirectory)/win.x64.1809.zip'
+        replaceExistingArchive: true
+        verbose: true
+    - powershell: |
+        Write-Host "Remove tar's"
+        Remove-Item $(Build.StagingDirectory)/*.tar -Force
+      displayName: "remove tar's"
+    - task: PublishPipelineArtifact@0
+      displayName: 'Publish Pipeline Artifact'
+      inputs:
+        artifactName: 'windows-x64-1809'
+        targetPath: '$(Build.StagingDirectory)'
+
+- job: windows_x64_1903
   pool: "1903"
   condition: ne(variables['disableWindows'], 'true')
   steps:
@@ -270,5 +300,5 @@ jobs:
     - task: PublishPipelineArtifact@0
       displayName: 'Publish Pipeline Artifact'
       inputs:
-        artifactName: 'windows-1903-x64'
+        artifactName: 'windows-x64-1903'
         targetPath: '$(Build.StagingDirectory)'
