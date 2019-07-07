@@ -235,7 +235,7 @@ jobs:
     - powershell: |
         Write-Host "Remove tar's"
         Remove-Item $(Build.StagingDirectory)/*.tar -Force
-      displayName: 'remove tar's'
+      displayName: "remove tar's"
     - task: PublishPipelineArtifact@0
       displayName: 'Publish Pipeline Artifact'
       inputs:
