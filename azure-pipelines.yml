@@ -220,9 +220,8 @@ jobs:
         docker save -o $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).win.x64.1809.src.tar "${img}-win-src-x64-1809"
         docker save -o $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).win.x64.1803.run.tar "${img}-win-x64-1803"
         docker save -o $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).win.x64.1803.src.tar "${img}-win-src-x64-1803"
-        tar cvf $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).win.x64.tar $(Build.StagingDirectory)/*.tar
-        bzip2 -9 $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).win.x64.tar
-        rm $(Build.StagingDirectory)/*.tar
+        Compress-Archive -Path $(Build.StagingDirectory)/*.tar -DestinationPath $(Build.StagingDirectory)/win.x64.zip
+        Remove-Item $(Build.StagingDirectory)/*.tar -Force
       displayName: 'export image'
     - task: PublishPipelineArtifact@0
       displayName: 'Publish Pipeline Artifact'
