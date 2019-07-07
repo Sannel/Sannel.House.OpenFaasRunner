@@ -214,15 +214,28 @@ jobs:
         customCommand: 'build --build-arg tag=2.2-nanoserver-1803 -t $(imageName)-win-x64-1803 -f build/windows/Dockerfile --isolation hyperv .'
     - powershell: |
         $img = "$(imageName)".ToLower()
+        Write-Host "Export 1903"
         docker save -o $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).win.x64.1903.run.tar "${img}-win-x64-1903"
         docker save -o $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).win.x64.1903.src.tar "${img}-win-src-x64-1903"
+        Write-Host "Export 1809"
         docker save -o $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).win.x64.1809.run.tar "${img}-win-x64-1809"
         docker save -o $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).win.x64.1809.src.tar "${img}-win-src-x64-1809"
+        Write-Host "Export 1803"
         docker save -o $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).win.x64.1803.run.tar "${img}-win-x64-1803"
         docker save -o $(Build.StagingDirectory)/$(dockerRepositoryRoot).$(dockerRepositoryName).win.x64.1803.src.tar "${img}-win-src-x64-1803"
-        Compress-Archive -Path $(Build.StagingDirectory)/*.tar -DestinationPath $(Build.StagingDirectory)/win.x64.zip
-        Remove-Item $(Build.StagingDirectory)/*.tar -Force
       displayName: 'export image'
+    - task: ArchiveFiles@2
+      inputs:
+        rootFolderOrFile: '$(Build.StagingDirectory)'
+        includeRootFolder: true
+        archiveType: 'zip'
+        archiveFile: '$(Build.StagingDirectory)/win.x64.zip'
+        replaceExistingArchive: true
+        verbose: true
+    - powershell: |
+        Write-Host "Remove tar's"
+        Remove-Item $(Build.StagingDirectory)/*.tar -Force
+      displayName: 'remove tar's'
     - task: PublishPipelineArtifact@0
       displayName: 'Publish Pipeline Artifact'
       inputs:
